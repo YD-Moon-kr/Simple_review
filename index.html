@@ -33,7 +33,7 @@
       <option>부정</option>
     </select>
 
-    <label>길이 (예: 5~7문장)</label>
+    <label>길이 (숫자만 입력하세요)</label>
     <input type="text" id="length" required>
 
     <label>언어</label>
@@ -55,10 +55,11 @@
       const keywords = document.getElementById('keywords').value;
       const rating = document.getElementById('rating').value;
       const tone = document.getElementById('tone').value;
-      const length = document.getElementById('length').value;
+      const length = document.getElementById('length').value + "문장";
       const language = document.getElementById('language').value;
 
-      const prompt = `카테고리: ${category}\\n제품명: ${product}\\n키워드: ${keywords}\\n평점: ${rating}\\n톤: ${tone}\\n길이: ${length}\\n언어: ${language}`;
+      const prompt = `카테고리: ${category} 제품명: ${product} 키워드: ${keywords} 평점: ${rating} 톤: ${tone} 길이: ${length} 언어: ${language}`;
+
       document.getElementById('output').value = prompt;
     }
   </script>
