@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>리뷰 프롬프트 생성기</title>
+  <style>
+    body { font-family: Arial; padding: 30px; max-width: 600px; margin: auto; }
+    label, input, select, textarea, button {
+      display: block; width: 100%; margin-bottom: 15px;
+    }
+    textarea { height: 150px; }
+  </style>
+</head>
+<body>
+  <h2>리뷰 프롬프트 생성기</h2>
+  <form onsubmit="generatePrompt(); return false;">
+    <label>카테고리</label>
+    <input type="text" id="category" required>
+
+    <label>제품명</label>
+    <input type="text" id="product" required>
+
+    <label>키워드 (쉼표로 구분)</label>
+    <input type="text" id="keywords" required>
+
+    <label>평점 (예: 4/5)</label>
+    <input type="text" id="rating" required>
+
+    <label>톤</label>
+    <select id="tone">
+      <option>긍정</option>
+      <option selected>중립</option>
+      <option>부정</option>
+    </select>
+
+    <label>길이 (예: 5~7문장)</label>
+    <input type="text" id="length" required>
+
+    <label>언어</label>
+    <select id="language">
+      <option selected>한국어</option>
+      <option>영어</option>
+    </select>
+
+    <button type="submit">프롬프트 생성</button>
+  </form>
+
+  <h3>생성된 프롬프트</h3>
+  <textarea id="output" readonly onclick="this.select()"></textarea>
+
+  <script>
+    function generatePrompt() {
+      const category = document.getElementById('category').value;
+      const product = document.getElementById('product').value;
+      const keywords = document.getElementById('keywords').value;
+      const rating = document.getElementById('rating').value;
+      const tone = document.getElementById('tone').value;
+      const length = document.getElementById('length').value;
+      const language = document.getElementById('language').value;
+
+      const prompt = `카테고리: ${category}\\n제품명: ${product}\\n키워드: ${keywords}\\n평점: ${rating}\\n톤: ${tone}\\n길이: ${length}\\n언어: ${language}`;
+      document.getElementById('output').value = prompt;
+    }
+  </script>
+</body>
+</html>
