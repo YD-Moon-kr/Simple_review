@@ -47,6 +47,7 @@
 
   <h3>생성된 프롬프트</h3>
   <textarea id="output" readonly onclick="this.select()"></textarea>
+  <button type="button" onclick="copyOutput()">복사</button>
 
   <script>
     function generatePrompt() {
@@ -60,7 +61,13 @@
 
       const prompt = `카테고리: ${category} 제품명: ${product} 키워드: ${keywords} 평점: ${rating} 톤: ${tone} 길이: ${length} 언어: ${language}`;
 
-      document.getElementById('output').value = prompt;
+        document.getElementById('output').value = prompt;
+    }
+
+    function copyOutput() {
+      const output = document.getElementById('output');
+      output.select();
+      document.execCommand('copy');
     }
   </script>
 </body>
