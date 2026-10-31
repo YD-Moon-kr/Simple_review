@@ -48,6 +48,7 @@
   <h3>생성된 프롬프트</h3>
   <textarea id="output" readonly onclick="this.select()"></textarea>
   <button type="button" onclick="copyOutput()">복사</button>
+  <p id="copy-status" role="status" aria-live="polite"></p>
 
   <script>
     function generatePrompt() {
@@ -61,18 +62,42 @@
 
       const prompt = `카테고리: ${category} 제품명: ${product} 키워드: ${keywords} 평점: ${rating} 톤: ${tone} 길이: ${length} 언어: ${language}`;
 
-        document.getElementById('output').value = prompt;
+      document.getElementById('output').value = prompt;
     }
 
-    function copyOutput() {
-      const output = document.getElementById('output').value;
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(output);
-      } else {
-        const textarea = document.getElementById('output');
-        textarea.select();
-        document.execCommand('copy');
+    async function copyOutput() {
+      const textarea = document.getElementById('output');
+      const status = document.getElementById('copy-status');
+      const text = textarea.value;
+      status.textContent = '';
+
+      if (!text) {
+        status.textContent = '먼저 프롬프트를 생성해 주세요.';
+        return;
       }
+
+      try {
+        if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+          await navigator.clipboard.writeText(text);
+          status.textContent = '복사했습니다.';
+          return;
+        }
+      } catch (error) {
+        // Clipboard access can be denied even when the API is available.
+      }
+
+      try {
+        textarea.focus();
+        textarea.select();
+        textarea.setSelectionRange(0, textarea.value.length);
+        if (document.execCommand('copy')) {
+          status.textContent = '복사했습니다.';
+          return;
+        }
+      } catch (error) {
+        // Keep the text available for manual copying if both methods fail.
+      }
+      status.textContent = '자동 복사에 실패했습니다. 텍스트를 선택해 직접 복사해 주세요.';
     }
   </script>
 </body>
